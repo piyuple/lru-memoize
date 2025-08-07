@@ -1,1 +1,3 @@
-# lua_lru_cache
+# lru-memoize
+
+LRU based memoization cache for Lua functions.

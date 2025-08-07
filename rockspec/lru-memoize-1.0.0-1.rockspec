@@ -1,4 +1,4 @@
-package = "lua_lru_cache"
+package = "lru-memoize"
 version = "1.0.0-1"
 
 source = {
@@ -10,14 +10,14 @@ description = {
 	summary = "LRU based memoization cache for Lua functions.",
 	detailed = [[
 	]],
-	homepage = "https://github.com/piyuple/lua_lru_cache",
+	homepage = "https://github.com/piyuple/lru-memoize",
 	license = "MIT"
 }
 
 build = {
 	type = "builtin",
 	modules = {
-		["lua_lru_cache"] = "src/lrucache.lua"
+		["lru-memoize"] = "src/lrucache.lua"
 	}
 }
 
