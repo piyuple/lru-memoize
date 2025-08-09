@@ -17,12 +17,15 @@ description = {
 build = {
 	type = "builtin",
 	modules = {
-		["lru-memoize"] = "src/lrucache.lua"
+		["lru-memoize"] = "src/memoize.lua"
 	}
 }
 
 dependencies = {
-	"lua >= 5.1"
+	"lua >= 5.1",
+	"lua-cmsgpack >= 0.4.0",
+	"lua-lru >= 1.0",
+	"xxhash >= 1.0.0"
 }
 
 test = {
