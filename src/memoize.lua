@@ -1,3 +1,7 @@
+-- lru-memoize, LRU based memoization cache for Lua functions
+-- Copyright (c) 2025 Piyush Ranjan
+-- See the LICENSE file for terms of use.
+
 ---@class Memoizer
 local Memoizer = {}
 Memoizer.__index = Memoizer
