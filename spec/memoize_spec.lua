@@ -50,9 +50,10 @@ describe("lru-memoize", function()
 		local memoizer = require("memoize").new(0xfff111, 2)
 
 		local _g = 10
+		local ttl = 2
 		local func = memoizer:memoize(function(x)
 			return x + _g
-		end, { ttl = 5 })
+		end, { ttl = ttl })
 
 		local _res1 = func(2)
 		assert.is_equal(_res1, _g + 2)
@@ -62,10 +63,39 @@ describe("lru-memoize", function()
 		assert.is_not_equal(_res2, _g + 2)
 		assert.is_equal(_res2, _res1)
 
-		os.execute("sleep 5")
+		os.execute("sleep " .. ttl)
 
 		_res2 = func(2)
 		assert.is_equal(_res2, _g + 2)
 		assert.is_not_equal(_res2, _res1)
+	end)
+
+	it("inspect the cache", function()
+		local seed = 0xfff111
+		local hasher = function(...)
+			return tostring(require("xxhash").xxh32(
+				(function(...)
+					return require("cmsgpack").pack({ ... })
+				end)(...),
+				seed
+			))
+		end
+
+		local memoizer = require("memoize").new(seed, 2)
+		local func = memoizer:memoize(function(x)
+			return x * 10
+		end)
+
+		local _arg1, _arg2 = 10, 20
+		local _ans1, _ans2 = 100, 200
+		local _res1, _res2 = func(_arg1), func(_arg2)
+		local _hash1, _hash2 = hasher(_arg1), hasher(_arg2)
+
+		assert.is_equal(_res1, _ans1)
+		assert.is_equal(_res2, _ans2)
+
+		local cache = memoizer:cache()
+		assert.is_equal(cache:get(_hash1).result[1], _ans1)
+		assert.is_equal(cache:get(_hash2).result[1], _ans2)
 	end)
 end)
