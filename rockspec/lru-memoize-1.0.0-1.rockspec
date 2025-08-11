@@ -1,3 +1,4 @@
+rockspec_format = "3.0"
 package = "lru-memoize"
 version = "1.0.0-1"
 
@@ -20,7 +21,7 @@ dependencies = {
 	"lua >= 5.1",
 	"lua-cmsgpack >= 0.4.0",
 	"lua-lru >= 1.0",
-	"xxhash >= 1.0.0",
+	"xxhash >= 1.0",
 }
 
 test = {
