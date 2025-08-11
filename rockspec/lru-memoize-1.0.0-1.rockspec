@@ -24,11 +24,6 @@ dependencies = {
 	"xxhash >= 1.0",
 }
 
-test = {
-	type = "command",
-	command = "busted --verbose",
-}
-
 build = {
 	type = "builtin",
 	modules = {
