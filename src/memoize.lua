@@ -48,7 +48,7 @@ function Memoizer.new(seed, capacity, byte_capacity)
 
 	---@param fn function
 	---@param opts {ttl: number, serializer: function, hasher: function} -- ttl: seconds
-	function memoizer:memoize(fn, opts)
+	function memoizer.memoize(fn, opts)
 		assert(type(fn) == "function", "arg#1 to memoize must be a function")
 
 		opts = opts or {}
@@ -112,7 +112,7 @@ function Memoizer.new(seed, capacity, byte_capacity)
 		return wrapper
 	end
 
-	function memoizer:cache()
+	function memoizer.cache()
 		return cache
 	end
 

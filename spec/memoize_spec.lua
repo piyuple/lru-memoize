@@ -36,7 +36,7 @@ describe("lru-memoize", function()
 		local _res1 = fib(40)
 		local _t1 = os.time() - _s
 
-		fib = memoizer:memoize(fib)
+		fib = memoizer.memoize(fib)
 
 		_s = os.time()
 		local _res2 = fib(40)
@@ -51,7 +51,7 @@ describe("lru-memoize", function()
 
 		local _g = 10
 		local ttl = 2
-		local func = memoizer:memoize(function(x)
+		local func = memoizer.memoize(function(x)
 			return x + _g
 		end, { ttl = ttl })
 
@@ -82,7 +82,7 @@ describe("lru-memoize", function()
 		end
 
 		local memoizer = require("memoize").new(seed, 2)
-		local func = memoizer:memoize(function(x)
+		local func = memoizer.memoize(function(x)
 			return x * 10
 		end)
 
@@ -94,7 +94,7 @@ describe("lru-memoize", function()
 		assert.is_equal(_res1, _ans1)
 		assert.is_equal(_res2, _ans2)
 
-		local cache = memoizer:cache()
+		local cache = memoizer.cache()
 		assert.is_equal(cache:get(_hash1).result[1], _ans1)
 		assert.is_equal(cache:get(_hash2).result[1], _ans2)
 	end)
