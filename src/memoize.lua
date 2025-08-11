@@ -38,7 +38,7 @@ end
 
 ---@param seed number
 ---@param capacity number
----@param byte_capacity number
+---@param byte_capacity number?
 function Memoizer.new(seed, capacity, byte_capacity)
 	assert(type(seed) == "number" and seed > 0, "seed must be positive number")
 	assert(type(capacity) == "number" and capacity > 0, "capacity must be positive number")
