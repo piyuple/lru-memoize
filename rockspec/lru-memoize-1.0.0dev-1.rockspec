@@ -1,6 +1,6 @@
-rockspec_format = "1.0"
+rockspec_format = "3.0"
 package = "lru-memoize"
-version = "1.0.0-1"
+version = "1.0.0dev-1"
 
 source = {
 	url = "git://github.com/piyuple/lru-memoize.git",
@@ -26,7 +26,7 @@ dependencies = {
 
 test = {
 	type = "command",
-	command = "busted --verbose",
+	command = "luacheck src/ && busted --verbose",
 }
 
 build = {
