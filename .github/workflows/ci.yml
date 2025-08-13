@@ -14,13 +14,19 @@ jobs:
     name: Lua ${{ matrix.lua }}
     steps:
       - uses: actions/checkout@v4
+
       - name: setup
-        uses: leafo/setup-luarocks@v1
+        uses: leafo/gh-actions-lua@v11
         with:
-          lua-version: ${{ matrix.lua }}
+          luaVersion: ${{ matrix.lua }}
+
+      - name: setup luarocks
+        uses: leafo/gh-actions-luarocks@v5
 
       - name: install dependencies
-        run: luarocks install busted luacheck
+        run: |
+          luarocks install luacheck
+          luarocks install busted
 
       - name: lint
         run: luacheck src/
