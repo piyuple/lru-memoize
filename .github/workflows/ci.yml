@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        lua: ['5.1', '5.2', '5.3', '5.4']
+    name: Lua ${{ matrix.lua }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: setup
+        uses: leafo/setup-luarocks@v1
+        with:
+          lua-version: ${{ matrix.lua }}
+
+      - name: install dependencies
+        run: luarocks install busted luacheck
+
+      - name: lint
+        run: luacheck src/
+
+      - name: test
+        run: busted --verbose
+
