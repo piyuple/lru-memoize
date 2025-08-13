@@ -27,6 +27,9 @@ jobs:
         run: |
           luarocks install luacheck
           luarocks install busted
+          luarocks install cmsgpack
+          luarocks install lua-lru
+          luarocks install xxhash --from=http://mah0x211.github.io/rocks/ 
 
       - name: lint
         run: luacheck src/
