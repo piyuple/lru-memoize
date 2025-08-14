@@ -73,12 +73,12 @@ describe("lru-memoize", function()
 	it("inspect the cache", function()
 		local seed = 0xfff111
 		local hasher = function(...)
-			return tostring(require("xxhash").xxh32(
+			return require("xxhash").xxh32(
 				(function(...)
 					return require("cmsgpack").pack({ ... })
 				end)(...),
 				seed
-			))
+			)
 		end
 
 		local memoizer = require("memoize").new(seed, 2)
