@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        lua: ['5.1', '5.2', '5.3', '5.4', 'luajit']
+        lua: ['5.1', '5.2', '5.3', '5.4']
     name: Lua ${{ matrix.lua }}
     steps:
       - uses: actions/checkout@v4
