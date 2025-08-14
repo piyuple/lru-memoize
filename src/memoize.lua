@@ -92,12 +92,9 @@ function Memoizer.new(seed, capacity, byte_capacity)
 			end
 
 			-- miss
-			local ok, res = pcall(function(...)
+			local res = (function(...)
 				return _pack(fn(...))
-			end, ...)
-			if not ok then
-				error(res)
-			end
+			end)(...)
 
 			local storedEntry = { result = res }
 			if ttl and type(ttl) == "number" then
