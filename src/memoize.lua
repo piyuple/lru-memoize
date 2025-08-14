@@ -57,7 +57,7 @@ function Memoizer.new(seed, capacity, byte_capacity)
 			return msgpack.pack(args)
 		end
 		local hasher = opts.hasher or function(bytes)
-			return tostring(hash.xxh32(bytes, seed))
+			return hash.xxh32(bytes, seed)
 		end
 
 		local function makeKeyFromArgs(...)
