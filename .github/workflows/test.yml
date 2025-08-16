@@ -22,34 +22,18 @@ jobs:
 
       - name: setup luarocks
         uses: leafo/gh-actions-luarocks@v5
-        with:
-          luarocksVersion: 3.11.0
-
-
-      - name: add custom servers to luarocks config
-        run: |
-          mkdir -p "$HOME/.luarocks"
-          CONFIG="$HOME/.luarocks/config-${{ matrix.lua }}.lua"
-          cat > "$CONFIG" <<- 'CFG'
-          rocks_server = {
-          "${{ secrets.CUSTOM_SERVER_URL1 }}",
-          "https://luarocks.org"
-          }
-          CFG
-        shell: bash
 
       - name: install dependencies
         run: |
           luarocks install luacheck
           luarocks install busted
-          luarocks install xxhash
 
       - name: lint
         run: luacheck src/
 
       - name: build
         run: |
-          luarocks make rockspec/lru-memoize-1.0.0dev-1.rockspec
+          luarocks make rockspec/lru-memoize-1.0.0dev-2.rockspec
 
       - name: test
         run: busted --verbose
