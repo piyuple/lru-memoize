@@ -39,12 +39,13 @@ jobs:
         run: |
           luarocks install luacheck
           luarocks install busted
-          luarocks install lua-cmsgpack
-          luarocks install lua-lru
-          luarocks install xxhash
 
       - name: lint
         run: luacheck src/
+
+      - name: build
+        run: |
+          luarocks make rockspec/lru-memoize-1.0.0dev-1.rockspec
 
       - name: test
         run: busted --verbose
