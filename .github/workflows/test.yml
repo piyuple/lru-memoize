@@ -1,4 +1,4 @@
-name: CI
+name: Test
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: setup
+      - name: setup lua
         uses: leafo/gh-actions-lua@v11
         with:
           luaVersion: ${{ matrix.lua }}
@@ -23,13 +23,25 @@ jobs:
       - name: setup luarocks
         uses: leafo/gh-actions-luarocks@v5
 
+      - name: add custom servers to luarocks config
+        run: |
+          mkdir -p "$HOME/.luarocks"
+          CONFIG="$HOME/.luarocks/config-${{ matrix.lua }}.lua"
+          cat > "$CONFIG" <<- 'CFG'
+          rocks_server = {
+          "${{ secrets.CUSTOM_SERVER_URL1 }}",
+          "https://luarocks.org"
+          }
+          CFG
+        shell: bash
+
       - name: install dependencies
         run: |
           luarocks install luacheck
           luarocks install busted
           luarocks install lua-cmsgpack
           luarocks install lua-lru
-          luarocks install xxhash --from=http://mah0x211.github.io/rocks/ 
+          luarocks install xxhash
 
       - name: lint
         run: luacheck src/
