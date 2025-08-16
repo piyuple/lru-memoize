@@ -39,6 +39,7 @@ jobs:
         run: |
           luarocks install luacheck
           luarocks install busted
+          luarocks install xxhash
 
       - name: lint
         run: luacheck src/
