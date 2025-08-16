@@ -45,7 +45,7 @@ jobs:
 
       - name: build
         run: |
-          luarocks make rockspec/lru-memoize-1.0.0dev-1.rockspec --local
+          luarocks make rockspec/lru-memoize-1.0.0dev-1.rockspec
 
       - name: test
         run: busted --verbose
