@@ -1,4 +1,4 @@
-name: Test
+name: Build
 
 on:
   push:
@@ -26,6 +26,8 @@ jobs:
       - name: install dependencies
         run: |
           luarocks install luacheck
+          luarocks install luacov
+          luarocks install luacov-coveralls
           luarocks install busted
 
       - name: lint
@@ -34,7 +36,12 @@ jobs:
       - name: build
         run: |
           luarocks make rockspec/lru-memoize-1.0.0dev-2.rockspec
+          eval "$(luarocks path)"
+          lua -e "require 'lrumemoize'"
 
       - name: test
-        run: busted --verbose
-
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        run: |
+          busted -v -c
+          luacov-coveralls -v
