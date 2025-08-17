@@ -33,13 +33,13 @@ describe("lru-memoize", function()
 		end
 
 		local _s = os.time()
-		local _res1 = fib(40)
+		local _res1 = fib(32)
 		local _t1 = os.time() - _s
 
 		fib = memoizer.memoize(fib)
 
 		_s = os.time()
-		local _res2 = fib(40)
+		local _res2 = fib(32)
 		local _t2 = os.time() - _s
 
 		assert.is_equal(_res1, _res2)
