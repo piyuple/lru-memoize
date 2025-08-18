@@ -3,15 +3,15 @@
 [![Build](https://github.com/piyuple/lru-memoize/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/piyuple/lru-memoize/actions/workflows/build.yml)
 [![Coverage Status](https://coveralls.io/repos/github/piyuple/lru-memoize/badge.svg?branch=main)](https://coveralls.io/github/piyuple/lru-memoize?branch=main)
 
-LRU based memoization cache for Lua functions.
+### LRU based memoization cache for Lua functions
 
-Install:
+#### Install:
 
 ```
 $ luarocks install lru-memoize
 ```
 
-Usage:
+#### Usage:
 
 ```lua
 local lrumemoize = require 'lrumemoize'
@@ -25,11 +25,17 @@ local memoizer = lrumemoize.new(seed, capacity)
 ---@param c number
 ---@param d { v: number }
 ---@param s string
-local function calculate(a, b, c, d, e)
+local function calculate(a, b, c, d, s)
     return string.format("%s: %d", s, (a ^ b * c + d.v))
 end
 
-calculate = memoizer.memoize(calculate, opts = { ttl = 60 })
+calculate = memoizer.memoize(calculate, { ttl = 60 })
 
-print(calculate(2, 3, 4, "result")) -- function params cached for 60s
+print(calculate(2, 3, 4, { v = 5.5 }, "result")) -- function params cached for 60s
 ```
+
+#### Dependencies
+- [lua-cmsgpack](https://github.com/antirez/lua-cmsgpack)
+- [lua-lru](https://github.com/starius/lua-lru)
+- [xxhash](https://github.com/mah0x211/lua-xxhash)
+
