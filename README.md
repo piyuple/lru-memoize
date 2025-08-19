@@ -34,8 +34,35 @@ calculate = memoizer.memoize(calculate, { ttl = 60 })
 print(calculate(2, 3, 4, { v = 5.5 }, "result")) -- function params cached for 60s
 ```
 
-#### Dependencies
+#### Dependencies:
+
 - [lua-cmsgpack](https://github.com/antirez/lua-cmsgpack)
 - [lua-lru](https://github.com/starius/lua-lru)
 - [xxhash](https://github.com/mah0x211/lua-xxhash)
 
+#### Notes:
+
+The default serializer and hasher are `cmsgpack` and `xxhash`, respectively. If you can't install those C-based implementations with Lua bindings (for example when using a LuaJIT-based distribution such as LÖVE, etc.), you can swap them out for any custom or pre-existing pure-Lua implementations. Example:
+```lua
+local memoizer = require('lrumemoize').new(0xffffff, 10)
+
+---@param n number
+local function fibonacci(n)
+    if n == 0 or n == 1 then
+        return n
+    end
+
+    return fibonacci(n - 1) + fibonacci(n - 2)
+end
+
+
+local custom_serializer = require(...)
+local custom_hasher = require(...)
+
+fibonacci = memoizer.memoize(fibonacci, {
+    serializer = custom_serializer,
+    hasher = custom_hasher
+})
+```
+
+The `lua-lru` implementation is pure-Lua and can be copied and used as-is.
