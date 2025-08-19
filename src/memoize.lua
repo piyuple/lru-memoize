@@ -8,8 +8,6 @@ Memoizer.__index = Memoizer
 
 Memoizer._VERSION = "1.0.0"
 
-local hash = require("xxhash")
-local msgpack = require("cmsgpack")
 local lru = require("lru")
 
 -- backwards compatibility
@@ -53,21 +51,21 @@ function Memoizer.new(seed, capacity, byte_capacity)
 
 		opts = opts or {}
 		local ttl = opts.ttl
-		local serializer = opts.serializer or function(args)
-			return msgpack.pack(args)
-		end
-		local hasher = opts.hasher or function(bytes)
-			return hash.xxh32(bytes, seed)
-		end
+		local serializer = opts.serializer
+			or function(args)
+				local msgpack = require("cmsgpack")
+				return msgpack.pack(args)
+			end
+		local hasher = opts.hasher
+			or function(bytes)
+				local hash = require("xxhash")
+				return hash.xxh32(bytes, seed)
+			end
 
 		local function makeKeyFromArgs(...)
 			local ok, packed = pcall(serializer, { ... })
 			if not ok then
-				local fallback = {}
-				for i = 1, select("#", ...) do
-					fallback[i] = tostring(select(i, ...))
-				end
-				packed = msgpack.pack(fallback)
+				error(packed)
 			end
 
 			return hasher(packed)
